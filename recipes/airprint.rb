@@ -43,7 +43,6 @@ git "#{Chef::Config[:file_cache_path]}/airprint-generate" do
   repository 'https://github.com/tjfontaine/airprint-generate.git'
 #  revision 'fb98c1ded7625b1b15cbbc0f9ac004a799c7c1a6' ## Latest as of 08/24/2014
   action :sync
-  notifies :run, 'python[generate_airprint_service_definitions]'
 end
 
 execute 'generate_airprint_service_definitions' do
@@ -53,7 +52,6 @@ execute 'generate_airprint_service_definitions' do
   user 'root'
   group 'root'
   returns 0
-  action :nothing
   notifies :run, 'bash[copy_airprint_service_definitions]'
 end
 
