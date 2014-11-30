@@ -41,7 +41,8 @@ end
 # 2. Run airprint-generate.py script
 # 3. Copy `.service` files to /etc/avahi/services/
 git "#{Chef::Config[:file_cache_path]}/airprint-generate" do
-  repository 'https://github.com/tjfontaine/airprint-generate.git'
+  repository node['cups']['airprint']['airprint_generate']['git_url']
+  revision node['cups']['airprint']['airprint_generate']['git_revision']
 #  revision 'fb98c1ded7625b1b15cbbc0f9ac004a799c7c1a6' ## Latest as of 08/24/2014
   action :sync
 end
