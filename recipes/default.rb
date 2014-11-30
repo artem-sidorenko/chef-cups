@@ -26,6 +26,7 @@ template '/etc/cups/cupsd.conf' do
 end
 
 service "cups" do
+  pattern 'cupsd'
   supports :restart => true, :reload => true
   action :start
   subscribes :reload, "template[/etc/cups/cupsd.conf]"
