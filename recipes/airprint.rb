@@ -19,6 +19,7 @@
 #
 #
 
+Chef::Log.warn('Avahi will advertise AirPrint printers but cups will NOT share them and remote printing will not work unless you set node[\'cups\'][\'share_printers\']!!! Ensure that this is what you want!') unless node['cups']['share_printers']
 # Create cups mime type definition files
 # Sources:  http://www.linux-magazine.com/Online/Features/AirPrint
 #           http://confoundedtech.blogspot.com/2012/12/ios6-airprint-without-true-airprint.html
