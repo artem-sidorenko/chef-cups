@@ -69,14 +69,15 @@ end
 
 # Reload cups service to pick up new mime types
 service "cups" do
-  supports :restart => true, :reload => true
+  pattern 'cupsd'
+  supports :restart => true, :reload => true, :status => true
   action :nothing
   # notified to reload by cookbook_file[airprint.*]
 end
 
 # Reload avahi-daemon to pick up new Airprint service definitions
 service "avahi-daemon" do
-  supports :restart => true, :reload => true
+  supports :restart => true, :reload => true, :status => true
   action :nothing
 end
 
