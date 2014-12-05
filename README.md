@@ -25,6 +25,34 @@ Attributes
     <td>Defines authorized system-group users in /etc/cups/cupsd.conf file.</td>
     <td><tt>sys root</tt></td>
   </tr>
+  <tr>
+    <td><tt>['cups']['share_printers']</tt></td>
+    <td>boolean</td>
+    <td>Should cups share printers?</td>
+    <td><tt>true</tt></td>
+  </tr>
+</table>
+
+#### cups::airprint
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>['cups']['airprint_generate']['git_url']</tt></td>
+    <td>string</td>
+    <td>URL to the airprint file generator repo.</td>
+    <td><tt>https://github.com/tjfontaine/airprint-generate.git</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['airprint_generate']['git_revision']</tt></td>
+    <td>string</td>
+    <td>Git repo tag/version to pull.</td>
+    <td><tt>master</tt></td>
+  </tr>
 </table>
 
 #### cups::default_printer
@@ -84,6 +112,9 @@ SAMPLE format for printer entries:
 }
 ```
 
+#### cups::airprint
+Configures CUPS to advertise printers via AirPrint.
+
 #### cups::default_printer
 Sets the system-wide default printer (via the `node['cups']['default_printer']` attribute).
 
@@ -101,7 +132,7 @@ Contributing
 
 License and Authors
 -------------------
- Copyright 2014, Biola University 
+ Copyright 2014, Biola University
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
