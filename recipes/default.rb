@@ -25,11 +25,11 @@ template '/etc/cups/cupsd.conf' do
   mode '0640'
 end
 
-service "cups" do
+service 'cups' do
   pattern 'cupsd'
   supports :restart => true, :reload => true, :status => true
   action :start
-  subscribes :reload, "template[/etc/cups/cupsd.conf]"
+  subscribes :reload, 'template[/etc/cups/cupsd.conf]'
 end
 
 # Work around the lack of a lpstat command during first convergence
@@ -60,7 +60,11 @@ node['cups']['printers'].each do |newprinter|
   if newprinter.first[1]['model']
     cmdline << " -m #{newprinter.first[1]['model']}"
   else
-    cmdline << " -m textonly.ppd"
+    if node['platform_family'] == 'debian'
+      cmdline << ' -m lsb/usr/cupsfilters/textonly.ppd'
+    else
+      cmdline << ' -m textonly.ppd'
+    end
   end
   if newprinter.first[1]['location']
     cmdline << " -L \"#{newprinter.first[1]['location']}\""

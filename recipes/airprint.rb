@@ -3,7 +3,7 @@
 # Recipe:: airprint
 #
 # Copyright 2014, James Cuzella
-# Copyright 2014, Biola University 
+# Copyright 2014, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,14 @@
 #
 
 Chef::Log.warn('Avahi will advertise AirPrint printers but cups will NOT share them and remote printing will not work unless you set node[\'cups\'][\'share_printers\']!!! Ensure that this is what you want!') unless node['cups']['share_printers']
+
+include_recipe 'git::default'
+
+if node['platform_family'] == 'rhel'
+  package 'avahi'
+  package 'python-lxml'
+end
+
 # Create cups mime type definition files
 # Sources:  http://www.linux-magazine.com/Online/Features/AirPrint
 #           http://confoundedtech.blogspot.com/2012/12/ios6-airprint-without-true-airprint.html
@@ -27,12 +35,24 @@ Chef::Log.warn('Avahi will advertise AirPrint printers but cups will NOT share t
 
 [ 'types', 'convs' ].each do |mime_file_suffix|
   cookbook_file "airprint.#{mime_file_suffix}" do
-    path "/usr/share/cups/mime/airprint.#{mime_file_suffix}"
+    if node['platform_family'] == 'rhel'
+      path "/etc/cups/airprint.#{mime_file_suffix}"
+    else
+      path "/usr/share/cups/mime/airprint.#{mime_file_suffix}"
+    end
     owner 'root'
     group 'root'
     mode '0644'
     notifies :reload, 'service[cups]', :immediately
   end
+end
+
+# Ensure the python bindings for CUPS are installed
+case node['platform_family']
+when 'rhel'
+  package 'system-config-printer-libs'
+when 'debian'
+  package 'python-cups'
 end
 
 # Generate Avahi AirPrint service definition XML files
@@ -49,7 +69,12 @@ end
 
 execute 'generate_airprint_service_definitions' do
   cwd "#{Chef::Config[:file_cache_path]}/airprint-generate"
-  command 'python airprint-generate.py'
+  if node['platform_family'] == 'debian'
+    # sleep is necessary here to ensure cups reload is finished before execution during initial run
+    command 'sleep 45 && python airprint-generate.py'
+  else
+    command 'python airprint-generate.py'
+  end
   umask 0022 # Ensures any created files have correct permissions (666 - 022 = 644)
   user 'root'
   group 'root'
@@ -69,7 +94,7 @@ bash 'copy_airprint_service_definitions' do
 end
 
 # Reload cups service to pick up new mime types
-service "cups" do
+service 'cups' do
   pattern 'cupsd'
   supports :restart => true, :reload => true, :status => true
   action :nothing
@@ -77,8 +102,7 @@ service "cups" do
 end
 
 # Reload avahi-daemon to pick up new Airprint service definitions
-service "avahi-daemon" do
+service 'avahi-daemon' do
   supports :restart => true, :reload => true, :status => true
   action :nothing
 end
-
