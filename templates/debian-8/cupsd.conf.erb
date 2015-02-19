@@ -30,11 +30,14 @@ DefaultAuthType Basic
 # Web interface setting...
 WebInterface Yes
 
+<% if node['cups']['hostname_lookups'] -%>
+HostNameLookups On
+<% end -%>
+
 # Restrict access to the server...
 <Location />
   Order allow,deny
 <% node['cups']['share_printers'].each do |acl| -%>
-  # Allow shared printing...
   Allow <%= acl %>
 <% end -%>
 </Location>
