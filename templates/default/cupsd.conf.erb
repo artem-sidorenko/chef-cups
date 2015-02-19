@@ -8,7 +8,7 @@
 
 # Log general information in error_log - change "info" to "debug" for
 # troubleshooting...
-LogLevel info
+LogLevel <%= node['cups']['loglevel'] %>
 
 # Administrator user group...
 SystemGroup <%= node['cups']['systemgroups'] %>

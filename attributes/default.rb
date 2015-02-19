@@ -1,4 +1,5 @@
 default['cups']['default_printer'] = nil
+default['cups']['loglevel'] = 'info'
 default['cups']['printers'] = []
 default['cups']['systemgroups'] = "sys root"
 default['cups']['share_printers'] = true
