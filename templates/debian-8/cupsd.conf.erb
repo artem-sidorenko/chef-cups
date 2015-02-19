@@ -33,9 +33,9 @@ WebInterface Yes
 # Restrict access to the server...
 <Location />
   Order allow,deny
-<% if node['cups']['share_printers'] -%>
+<% node['cups']['share_printers'].each do |acl| -%>
   # Allow shared printing...
-  Allow @LOCAL
+  Allow <%= acl %>
 <% end -%>
 </Location>
 
