@@ -8,7 +8,7 @@ source_url       'https://github.com/biola/chef-cups'
 issues_url       'https://github.com/biola/chef-cups/issues'
 version          '0.4.1'
 
-depends 'git', '~> 4.0'
+#depends 'git', '~> 4.0'
 
 %w(ubuntu debian redhat centos amazon scientific smartos).each do |os|
   supports os
