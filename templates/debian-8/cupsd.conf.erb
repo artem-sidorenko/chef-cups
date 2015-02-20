@@ -11,6 +11,9 @@ LogLevel <%= node['cups']['loglevel'] %>
 # LogLevel debug2 gets usable now
 MaxLogSize 0
 
+# Printer Administrator user group:
+SystemGroup <%= node['cups']['systemgroups'] %>
+
 <% if node['cups']['share_printers'] -%>
 # Allow remote access
 Port 631
