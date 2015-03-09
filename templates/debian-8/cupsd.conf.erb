@@ -48,7 +48,8 @@ HostNameLookups On
 # Restrict access to the admin pages...
 <Location /admin>
   Order allow,deny
-<% node['cups']['remote_admin'].each do |acl| -%>
+<%= "Require user @SYSTEM" if node['cups']['admin']['auth_read'] %>
+<% node['cups']['admin']['acl'].each do |acl| -%>
   Allow <%= acl %>
 <% end -%>
 </Location>
