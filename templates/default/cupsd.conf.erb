@@ -16,12 +16,12 @@ SystemGroup <%= node['cups']['systemgroups'] %>
 
 <% if node['cups']['share_printers'] -%>
 # Allow remote access
-<% node['cups']['ports'],each do |port| -%>
+<% node['cups']['ports'].each do |port| -%>
 Port <%= port %>
 <%- end %>
 <% else -%>
 # Only listen for connections from the local machine.
-<% node['cups']['ports'],each do |port| -%>
+<% node['cups']['ports'].each do |port| -%>
 Listen localhost:<%= port %>
 <%- end %>
 <% end -%>
