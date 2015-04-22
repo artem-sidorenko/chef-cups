@@ -42,9 +42,8 @@ DefaultAuthType Basic
 # Restrict access to the server...
 <Location />
   Order allow,deny
-<% if node['cups']['share_printers'] -%>
-  # Allow shared printing...
-  Allow @LOCAL
+<% node['cups']['share_printers'].each do |acl| -%>
+  Allow <%= acl %>
 <% end -%>
 </Location>
 
