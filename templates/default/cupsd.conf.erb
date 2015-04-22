@@ -39,6 +39,10 @@ BrowseAllow @LOCAL
 # Default authentication type, when authentication is required...
 DefaultAuthType Basic
 
+<% if node['cups']['hostname_lookups'] -%>
+HostNameLookups On
+<% end -%>
+
 # Restrict access to the server...
 <Location />
   Order allow,deny
