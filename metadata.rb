@@ -6,7 +6,7 @@ description      'Installs/Configures cups'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url       'https://github.com/biola/chef-cups'
 issues_url       'https://github.com/biola/chef-cups/issues'
-version          '0.4.1'
+version          '0.5.0'
 
 depends 'git', '~> 4.0'
 
