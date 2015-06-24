@@ -2,7 +2,7 @@
 # Cookbook Name:: cups
 # Recipe:: default
 #
-# Copyright 2014, Biola University 
+# Copyright 2015, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ end
 
 service 'cups' do
   pattern 'cupsd'
-  supports :restart => true, :reload => false, :status => true
+  supports restart: true, reload: false, status: true
   action :start
   subscribes :restart, 'template[/etc/cups/cupsd.conf]'
 end
 
 # Work around the lack of a lpstat command during first convergence
-if File.exists?('/usr/bin/lpstat')
+if File.exist?('/usr/bin/lpstat')
   lpstat = 'lpstat -v'
 else
   lpstat = 'true'
@@ -43,8 +43,8 @@ lpstatcmd.run_command
 printers = lpstatcmd.stdout.split(/\n/)
 printers.map! do |x|
   phash = {}
-  phash['name'] = x.gsub(/^device\sfor\s/,'').gsub(/:\s.*/,'')
-  phash['uri'] = x.gsub(/^.*:\s/,'')
+  phash['name'] = x.gsub(/^device\sfor\s/, '').gsub(/:\s.*/, '')
+  phash['uri'] = x.gsub(/^.*:\s/, '')
   phash
 end
 
@@ -56,7 +56,8 @@ end
 
 node['cups']['printers'].each do |newprinter|
   # newprinter.first[0] is the printer name
-  cmdline = "lpadmin -p #{newprinter.first[0]} -E -v #{newprinter.first[1]['uri']}"
+  cmdline = "lpadmin -p #{newprinter.first[0]} -E "\
+            "-v #{newprinter.first[1]['uri']}"
   if newprinter.first[1]['model']
     cmdline << " -m #{newprinter.first[1]['model']}"
   else
@@ -72,15 +73,13 @@ node['cups']['printers'].each do |newprinter|
   if newprinter.first[1]['desc']
     cmdline << " -D \"#{newprinter.first[1]['desc']}\""
   end
-  unless oldprinters.include?(newprinter.first[0])
-    execute cmdline
-  else
+  if oldprinters.include?(newprinter.first[0])
     printers.each do |oldprinterhash|
-      if oldprinterhash['name'] == newprinter.first[0]
-        unless oldprinterhash['uri'] == newprinter.first[1]['uri']
-          execute cmdline
-        end
-      end
+      next if oldprinterhash['name'] != newprinter.first[0]
+      next if oldprinterhash['uri'] == newprinter.first[1]['uri']
+      execute cmdline
     end
+  else
+    execute cmdline
   end
 end
