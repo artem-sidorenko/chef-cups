@@ -27,9 +27,9 @@ end
 
 service 'cups' do
   pattern 'cupsd'
-  supports :restart => true, :reload => true, :status => true
+  supports :restart => true, :reload => false, :status => true
   action :start
-  subscribes :reload, 'template[/etc/cups/cupsd.conf]'
+  subscribes :restart, 'template[/etc/cups/cupsd.conf]'
 end
 
 # Work around the lack of a lpstat command during first convergence
