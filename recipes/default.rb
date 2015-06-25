@@ -54,12 +54,19 @@ printers.each do |px|
   oldprinters << px['name']
 end
 
-node['cups']['printers'].each do |newprinter|
-  # newprinter.first[0] is the printer name
-  cmdline = "lpadmin -p #{newprinter.first[0]} -E "\
-            "-v #{newprinter.first[1]['uri']}"
-  if newprinter.first[1]['model']
-    cmdline << " -m #{newprinter.first[1]['model']}"
+# turn the printer array of hashes into a single hash:
+newprinters = node['cups']['printers'].inject({}) do |result,hash|
+  printer = hash.first
+  result[printer[0]] = printer[1]
+  result
+end
+
+newprinters.each do |name,config|
+  # name is the printer name
+  cmdline = "lpadmin -p #{name} -E "\
+            "-v #{config['uri']}"
+  if config['model']
+    cmdline << " -m #{config['model']}"
   else
     if node['platform_family'] == 'debian'
       cmdline << ' -m lsb/usr/cupsfilters/textonly.ppd'
@@ -67,16 +74,16 @@ node['cups']['printers'].each do |newprinter|
       cmdline << ' -m textonly.ppd'
     end
   end
-  if newprinter.first[1]['location']
-    cmdline << " -L \"#{newprinter.first[1]['location']}\""
+  if config['location']
+    cmdline << " -L \"#{config['location']}\""
   end
-  if newprinter.first[1]['desc']
-    cmdline << " -D \"#{newprinter.first[1]['desc']}\""
+  if config['desc']
+    cmdline << " -D \"#{config['desc']}\""
   end
-  if oldprinters.include?(newprinter.first[0])
+  if oldprinters.include?(name)
     printers.each do |oldprinterhash|
-      next if oldprinterhash['name'] != newprinter.first[0]
-      next if oldprinterhash['uri'] == newprinter.first[1]['uri']
+      next if oldprinterhash['name'] != name
+      next if oldprinterhash['uri'] == config['uri']
       execute cmdline
     end
   else
