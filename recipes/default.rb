@@ -40,18 +40,15 @@ else
 end
 lpstatcmd = Mixlib::ShellOut.new(lpstat)
 lpstatcmd.run_command
-printers = lpstatcmd.stdout.split(/\n/)
-printers.map! do |x|
-  phash = {}
-  phash['name'] = x.gsub(/^device\sfor\s/, '').gsub(/:\s.*/, '')
-  phash['uri'] = x.gsub(/^.*:\s/, '')
-  phash
-end
 
-oldprinters = []
-
-printers.each do |px|
-  oldprinters << px['name']
+# create a hash of configured printers
+#
+#  Hash[lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/)] would also do the trick
+#   but as { name => device } instead of { name => { 'uri' => device } }
+#   the latter may be useful to add other info, eg. from lpootions
+printers = lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/).inject({}) do |h,a|
+  h[a[0]] = { 'uri' => a[1] }
+  h
 end
 
 # turn the printer array of hashes into a single hash:
@@ -80,13 +77,10 @@ newprinters.each do |name,config|
   if config['desc']
     cmdline << " -D \"#{config['desc']}\""
   end
-  if oldprinters.include?(name)
-    printers.each do |oldprinterhash|
-      next if oldprinterhash['name'] != name
-      next if oldprinterhash['uri'] == config['uri']
-      execute cmdline
-    end
-  else
-    execute cmdline
+
+  execute cmdline do
+    # do nothing if the printer already exists and the device is unchanged:
+    not_if { printers.has_key?(name) and printers[name]['uri'] == config['uri']}
   end
+
 end
