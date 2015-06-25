@@ -112,6 +112,21 @@ SAMPLE format for printer entries:
 }
 ```
 
+##### Data bags
+
+Set the attribute `node['cups']['printer_bag']` to the name of your data bag.
+
+Data bag entries use this format:
+```
+{
+  "id": "printer1",
+  "model": "textonly.ppd",
+  "uri": "lpd://FQDN",
+  "location": "Front Office",
+  "desc": "HP LaserJet xx"
+}
+```
+
 #### cups::airprint
 Configures CUPS to advertise printers via AirPrint.
 
