@@ -45,7 +45,7 @@ lpstatcmd.run_command
 #
 #  Hash[lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/)] would also do the trick
 #   but as { name => device } instead of { name => { 'uri' => device } }
-#   the latter may be useful to add other info, eg. from lpootions
+#   the latter may be useful to add other info, eg. from lpoptions
 printers = lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/).inject({}) do |h,a|
   h[a[0]] = { 'uri' => a[1] }
   h
@@ -56,6 +56,15 @@ newprinters = node['cups']['printers'].inject({}) do |result,hash|
   printer = hash.first
   result[printer[0]] = printer[1]
   result
+end
+
+# Read more printers from databag:
+if node['cups']['printer_bag']
+  data_bag(node['cups']['printer_bag']).each do |name|
+    # TODO: Add some method for filtering here?
+    #  A regex for name matching? A special data bag attribute?
+    printers[name] = data_bag_item(node['cups']['printer_bag'], name)
+  end
 end
 
 newprinters.each do |name,config|
