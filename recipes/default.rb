@@ -61,9 +61,12 @@ end
 # Read more printers from databag:
 if node['cups']['printer_bag']
   data_bag(node['cups']['printer_bag']).each do |name|
+    # attribute-defined printers take precedence over databag-defined ones:
+    next if newprinters[name]
+
     # TODO: Add some method for filtering here?
     #  A regex for name matching? A special data bag attribute?
-    printers[name] = data_bag_item(node['cups']['printer_bag'], name)
+    newprinters[name] = data_bag_item(node['cups']['printer_bag'], name)
   end
 end
 
