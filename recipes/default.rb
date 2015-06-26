@@ -40,26 +40,42 @@ else
 end
 lpstatcmd = Mixlib::ShellOut.new(lpstat)
 lpstatcmd.run_command
-printers = lpstatcmd.stdout.split(/\n/)
-printers.map! do |x|
-  phash = {}
-  phash['name'] = x.gsub(/^device\sfor\s/, '').gsub(/:\s.*/, '')
-  phash['uri'] = x.gsub(/^.*:\s/, '')
-  phash
+
+# create a hash of configured printers
+#
+#  Hash[lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/)] would also do the trick
+#   but as { name => device } instead of { name => { 'uri' => device } }
+#   the latter may be useful to add other info, eg. from lpoptions
+printers = lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/).inject({}) do |h,a|
+  h[a[0]] = { 'uri' => a[1] }
+  h
 end
 
-oldprinters = []
-
-printers.each do |px|
-  oldprinters << px['name']
+# turn the printer array of hashes into a single hash:
+newprinters = node['cups']['printers'].inject({}) do |result,hash|
+  printer = hash.first
+  result[printer[0]] = printer[1]
+  result
 end
 
-node['cups']['printers'].each do |newprinter|
-  # newprinter.first[0] is the printer name
-  cmdline = "lpadmin -p #{newprinter.first[0]} -E "\
-            "-v #{newprinter.first[1]['uri']}"
-  if newprinter.first[1]['model']
-    cmdline << " -m #{newprinter.first[1]['model']}"
+# Read more printers from databag:
+if node['cups']['printer_bag']
+  data_bag(node['cups']['printer_bag']).each do |name|
+    # attribute-defined printers take precedence over databag-defined ones:
+    next if newprinters[name]
+
+    # TODO: Add some method for filtering here?
+    #  A regex for name matching? A special data bag attribute?
+    newprinters[name] = data_bag_item(node['cups']['printer_bag'], name)
+  end
+end
+
+newprinters.each do |name,config|
+  # name is the printer name
+  cmdline = "lpadmin -p #{name} -E "\
+            "-v #{config['uri']}"
+  if config['model']
+    cmdline << " -m #{config['model']}"
   else
     if node['platform_family'] == 'debian'
       cmdline << ' -m lsb/usr/cupsfilters/textonly.ppd'
@@ -67,19 +83,16 @@ node['cups']['printers'].each do |newprinter|
       cmdline << ' -m textonly.ppd'
     end
   end
-  if newprinter.first[1]['location']
-    cmdline << " -L \"#{newprinter.first[1]['location']}\""
+  if config['location']
+    cmdline << " -L \"#{config['location']}\""
   end
-  if newprinter.first[1]['desc']
-    cmdline << " -D \"#{newprinter.first[1]['desc']}\""
+  if config['desc']
+    cmdline << " -D \"#{config['desc']}\""
   end
-  if oldprinters.include?(newprinter.first[0])
-    printers.each do |oldprinterhash|
-      next if oldprinterhash['name'] != newprinter.first[0]
-      next if oldprinterhash['uri'] == newprinter.first[1]['uri']
-      execute cmdline
-    end
-  else
-    execute cmdline
+
+  execute cmdline do
+    # do nothing if the printer already exists and the device is unchanged:
+    not_if { printers.has_key?(name) and printers[name]['uri'] == config['uri']}
   end
+
 end
