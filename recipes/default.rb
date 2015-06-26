@@ -43,19 +43,20 @@ lpstatcmd.run_command
 
 # create a hash of configured printers
 #
-#  Hash[lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/)] would also do the trick
+#  Hash[lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/)]
+#  would also do the trick
 #   but as { name => device } instead of { name => { 'uri' => device } }
 #   the latter may be useful to add other info, eg. from lpoptions
-printers = lpstatcmd.stdout.scan(/^device for (.*?):\s(.*)/).inject({}) do |h,a|
+printers = lpstatcmd.stdout.scan(
+  /^device for (.*?):\s(.*)/
+).each_with_object({}) do |a, h|
   h[a[0]] = { 'uri' => a[1] }
-  h
 end
 
 # turn the printer array of hashes into a single hash:
-newprinters = node['cups']['printers'].inject({}) do |result,hash|
+newprinters = node['cups']['printers'].each_with_object({}) do |hash, result|
   printer = hash.first
   result[printer[0]] = printer[1]
-  result
 end
 
 # Read more printers from databag:
@@ -70,7 +71,7 @@ if node['cups']['printer_bag']
   end
 end
 
-newprinters.each do |name,config|
+newprinters.each do |name, config|
   # name is the printer name
   cmdline = "lpadmin -p #{name} -E "\
             "-v #{config['uri']}"
@@ -83,16 +84,13 @@ newprinters.each do |name,config|
       cmdline << ' -m textonly.ppd'
     end
   end
-  if config['location']
-    cmdline << " -L \"#{config['location']}\""
-  end
-  if config['desc']
-    cmdline << " -D \"#{config['desc']}\""
-  end
+
+  cmdline << " -L \"#{config['location']}\"" if config['location']
+
+  cmdline << " -D \"#{config['desc']}\"" if config['desc']
 
   execute cmdline do
     # do nothing if the printer already exists and the device is unchanged:
-    not_if { printers.has_key?(name) and printers[name]['uri'] == config['uri']}
+    not_if { printers.key?(name) && printers[name]['uri'] == config['uri'] }
   end
-
 end
