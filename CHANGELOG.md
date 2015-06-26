@@ -3,6 +3,10 @@ cups CHANGELOG
 
 This file is used to list changes made in each version of the cups cookbook.
 
+0.6.0
+-----
+- Support specifying printer config via data_bags
+
 0.5.0
 -----
 - Debian Jesse/systemd support
