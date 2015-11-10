@@ -13,6 +13,9 @@ LogLevel <%= node['cups']['loglevel'] %>
 # Administrator user group...
 SystemGroup <%= node['cups']['systemgroups'] %>
 
+<% node['cups']['server_aliases'].each do |server_alias| -%>
+ServerAlias <%= server_alias %>
+<% end -%>
 
 <% if node['cups']['share_printers'] -%>
 # Allow remote access

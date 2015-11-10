@@ -16,6 +16,9 @@ default['cups']['share_printers'] = [ '@LOCAL' ]
 # ACLs like '.example.com' need DNS lookups
 default['cups']['hostname_lookups'] = false
 
+# allowed HTTP Host: headers
+default['cups']['server_aliases'] = [ ]
+
 # ACLs for remote administration -- default is localhost only
 default['cups']['admin']['acl'] = [ ]
 
