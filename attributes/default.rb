@@ -6,6 +6,9 @@ default['cups']['printers'] = []
 default['cups']['printer_bag'] = nil
 default['cups']['systemgroups'] = 'sys root'
 default['cups']['ports'] = [ 631 ]
+default['cups']['require_encryption'] = false
+default['cups']['cert_file'] = nil
+default['cups']['key_file'] = nil
 
 # ACLs for printer access:
 default['cups']['share_printers'] = [ '@LOCAL' ]
