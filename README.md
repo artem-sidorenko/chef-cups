@@ -31,6 +31,54 @@ Attributes
     <td>Should cups share printers?</td>
     <td><tt>true</tt></td>
   </tr>
+  <tr>
+    <td><tt>['cups']['require_encryption']</tt></td>
+    <td>boolean</td>
+    <td>Should cups require encryption for clients?  This requires a certificate to be already in a data bag (preferably encrypted using <tt>chef-vault</tt>) as defined in the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['data_bag']</tt></td>
+    <td>string</td>
+    <td>If <tt>require_encryption</tt> is set then this is the databag that contains the certificate as used by the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>nil</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['data_bag_type']</tt></td>
+    <td>string</td>
+    <td>The data bag type of <tt>['cups']['certificate']['data_bag']</tt>, can any type supported by the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>unencrypted</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['search_id']</tt></td>
+    <td>string</td>
+    <td>The <tt>search_id</tt> as used by the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>cups</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['cert_file']</tt></td>
+    <td>string</td>
+    <td>The name of the certificate file as used by the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>#{node['fqdn']}.pem</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['key_file']</tt></td>
+    <td>string</td>
+    <td>The name of the certificate key file as used by the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>#{node['fqdn']}.key</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['chain_file']</tt></td>
+    <td>string</td>
+    <td>The name of the certificate chain file as used by the <a href="https://supermarket.chef.io/cookbooks/certificate">certificate</a> cookbook.</td>
+    <td><tt>#{node['fqdn']}.pem</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['certificate']['cert_path']</tt></td>
+    <td>string</td>
+    <td>The path where the above certificates will be stored.</td>
+    <td><tt>/etc/cups/ssl</tt></td>
+  </tr>
 </table>
 
 #### cups::airprint

@@ -27,6 +27,13 @@ Listen localhost:<%= port %>
 <% end -%>
 Listen /var/run/cups/cups.sock
 
+<% if node['cups']['require_encryption'] -%>
+# Require SSL/TLS for printer sharing
+Encryption Required
+ServerCertificate <%= node['cups']['certificate']['cert_path'] %>/<%= node['cups']['certificate']['cert_file'] %>
+ServerKey <%= node['cups']['certificate']['cert_path'] %>/<%= node['cups']['certificate']['cert_file'] %>
+<% end -%>
+
 <% if node['cups']['share_printers'] -%>
 # Show shared printers on the local network.
 Browsing On

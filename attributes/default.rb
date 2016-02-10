@@ -6,6 +6,14 @@ default['cups']['printers'] = []
 default['cups']['printer_bag'] = nil
 default['cups']['systemgroups'] = 'sys root'
 default['cups']['ports'] = [ 631 ]
+default['cups']['require_encryption'] = false
+default['cups']['certificate']['data_bag'] = nil
+default['cups']['certificate']['data_bag_type'] = 'unencrypted'
+default['cups']['certificate']['search_id'] = 'cups'
+default['cups']['certificate']['cert_file'] = "#{node['fqdn']}.pem"
+default['cups']['certificate']['key_file'] = "#{node['fqdn']}.key"
+default['cups']['certificate']['chain_file'] = "#{node['hostname']}-bundle.crt"
+default['cups']['certificate']['cert_path'] = '/etc/cups/ssl'
 
 # ACLs for printer access:
 default['cups']['share_printers'] = [ '@LOCAL' ]

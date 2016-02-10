@@ -17,7 +17,19 @@
 # limitations under the License.
 #
 #
+
 package 'cups'
+
+certificate_manage 'cups' do
+  data_bag node['cups']['certificate']['data_bag']
+  data_bag_type node['cups']['certificate']['data_bag_type']
+  search_id node['cups']['certificate']['search_id']
+  cert_file node['cups']['certificate']['cert_file']
+  key_file node['cups']['certificate']['key_file']
+  chain_file node['cups']['certificate']['chain_file']
+  cert_path node['cups']['certificate']['cert_path']
+  only_if { node['cups']['require_encryption'] == true }
+end
 
 template '/etc/cups/cupsd.conf' do
   owner 'root'
