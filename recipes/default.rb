@@ -94,3 +94,10 @@ newprinters.each do |name, config|
     not_if { printers.key?(name) && printers[name]['uri'] == config['uri'] }
   end
 end
+
+# Open ports for CUPS
+firewall_rule 'cups' do
+  protocol :tcp
+  port node['cups']['ports'] 
+  not_if { node['cups']['share_printers'] == [ '@LOCAL' ] }
+end
