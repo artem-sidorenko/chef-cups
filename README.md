@@ -31,6 +31,24 @@ Attributes
     <td>Should cups share printers?</td>
     <td><tt>true</tt></td>
   </tr>
+  <tr>
+    <td><tt>['cups']['require_encryption']</tt></td>
+    <td>boolean</td>
+    <td>Should cups require SSL/TLS for client communication?  This requires both <tt>['cups']['cert_file']</tt> and <tt>['cups']['key_file']</tt> to be set.</td>
+    <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['cert_file']</tt></td>
+    <td>string</td>
+    <td>If <tt>['cups']['require_encryption']</tt> is set to `true` then the full path to the SSL certificate file to be used by cups must be provided. **Note:** if an intermediate certificate is required by the issuing certificate authority, the intermediate certificate must be appended to the server certificate file.</td>
+    <td><tt>nil</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['cups']['key_file']</tt></td>
+    <td>string</td>
+    <td>If <tt>['cups']['require_encryption']</tt> is set to `true` then the full path to the SSL key file to be used by cups must be provided.</td>
+    <td><tt>nil</tt></td>
+  </tr>
 </table>
 
 #### cups::airprint
