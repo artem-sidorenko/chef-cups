@@ -3,6 +3,10 @@ cups CHANGELOG
 
 This file is used to list changes made in each version of the cups cookbook.
 
+0.7.0
+-----
+- Add SSL support to CUPS (#13)
+
 0.6.0
 -----
 - Support specifying printer config via data_bags
