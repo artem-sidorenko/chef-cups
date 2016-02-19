@@ -3,6 +3,10 @@ cups CHANGELOG
 
 This file is used to list changes made in each version of the cups cookbook.
 
+0.8.0
+-----
+- Allow setting the ServerAlias directive (#9)
+
 0.7.0
 -----
 - Add SSL support to CUPS (#13)
