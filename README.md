@@ -49,6 +49,12 @@ Attributes
     <td>The full path to the SSL key file to be used by cups.</td>
     <td><tt>nil</tt></td>
   </tr>
+  <tr>
+    <td><tt>['cups']['server_aliases']</tt></td>
+    <td>array</td>
+    <td>List of allowed domains for remote administration</td>
+    <td><tt>[]</tt></td>
+  </tr>
 </table>
 
 #### cups::airprint
