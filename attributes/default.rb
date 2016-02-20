@@ -26,5 +26,8 @@ default['cups']['admin']['acl'] = [ ]
 # Should be enabled as soon as remote admin access is granted
 default['cups']['admin']['auth_read'] = false
 
+# specify whether authentication is required to access the website and printers
+default['cups']['require_authentication'] = false
+
 default['cups']['airprint']['airprint_generate']['git_url'] = 'https://github.com/tjfontaine/airprint-generate.git'
 default['cups']['airprint']['airprint_generate']['git_revision'] = 'master'

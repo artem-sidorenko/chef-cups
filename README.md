@@ -55,6 +55,12 @@ Attributes
     <td>List of allowed domains for remote administration</td>
     <td><tt>[]</tt></td>
   </tr>
+  <tr>
+    <td><tt>['cups']['require_authentication']</tt></td>
+    <td>boolean</td>
+    <td>Specifies whether authentication is required to access the CUPS website and printers.</td>
+    <td><tt>false</tt></td>
+  </tr>
 </table>
 
 #### cups::airprint

@@ -59,6 +59,9 @@ HostNameLookups On
 
 # Restrict access to the server...
 <Location />
+<% if node['cups']['require_authentication'] -%>
+  AuthType Default
+<% end -%>
   Order allow,deny
 <% node['cups']['share_printers'].each do |acl| -%>
   Allow <%= acl %>
