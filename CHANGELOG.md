@@ -3,6 +3,10 @@ cups CHANGELOG
 
 This file is used to list changes made in each version of the cups cookbook.
 
+0.9.0
+-----
+- Add require_authentication setting (#14)
+
 0.8.0
 -----
 - Allow setting the ServerAlias directive (#9)
