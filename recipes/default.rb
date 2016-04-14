@@ -73,23 +73,24 @@ end
 
 newprinters.each do |name, config|
   # name is the printer name
-  cmdline = "lpadmin -p #{name} -E "\
-            "-v #{config['uri']}"
+  cmdline = ['lpadmin', '-p', name, '-E', '-v', config['uri']]
+
   if config['model']
-    cmdline << " -m #{config['model']}"
+    cmdline.concat ['-m', config['model']]
   else
     if node['platform_family'] == 'debian'
-      cmdline << ' -m lsb/usr/cupsfilters/textonly.ppd'
+      cmdline.concat ['-m', 'lsb/usr/cupsfilters/textonly.ppd']
     else
-      cmdline << ' -m textonly.ppd'
+      cmdline.concat ['-m', 'textonly.ppd']
     end
   end
 
-  cmdline << " -L \"#{config['location']}\"" if config['location']
+  cmdline.concat ['-L', config['location']] if config['location']
 
-  cmdline << " -D \"#{config['desc']}\"" if config['desc']
+  cmdline.concat ['-D', config['desc']] if config['desc']
 
-  execute cmdline do
+  execute "configure_printer_#{name}" do
+    command cmdline
     # do nothing if the printer already exists and the device is unchanged:
     not_if { printers.key?(name) && printers[name]['uri'] == config['uri'] }
   end
