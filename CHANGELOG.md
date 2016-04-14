@@ -3,6 +3,10 @@ cups CHANGELOG
 
 This file is used to list changes made in each version of the cups cookbook.
 
+0.10.0
+-----
+- Use an array instead of a string for lpadmin command
+
 0.9.0
 -----
 - Add require_authentication setting (#14)
@@ -31,4 +35,3 @@ This file is used to list changes made in each version of the cups cookbook.
 0.2.1
 -----
 - Initial commit of new repo
-
