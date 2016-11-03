@@ -4,6 +4,14 @@ driver:
 
 provisioner:
   name: chef_zero
+<% if ENV['CHEF_VERSION'] %>
+  require_chef_omnibus: <%= ENV['CHEF_VERSION'] %>
+<% end %>
+
+verifier:
+  name: inspec
+  inspec_tests:
+    - test/integration/generic
 
 platforms:
   - name: bento/ubuntu-12.04
