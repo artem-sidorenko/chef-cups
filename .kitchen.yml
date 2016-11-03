@@ -5,6 +5,11 @@ driver:
 provisioner:
   name: chef_zero
 
+verifier:
+  name: inspec
+  inspec_tests:
+    - test/integration/generic
+
 platforms:
   - name: bento/ubuntu-12.04
     run_list:
