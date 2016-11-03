@@ -20,7 +20,7 @@
 #
 #
 
-unless node['cups']['share_printers']
+if node['cups']['share_printers'].empty?
   Chef::Log.warn(
     'Avahi will advertise AirPrint printers but cups will NOT share them and '\
     'remote printing will not work unless you set '\

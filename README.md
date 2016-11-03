@@ -32,9 +32,9 @@ Attributes
   </tr>
   <tr>
     <td><tt>['cups']['share_printers']</tt></td>
-    <td>boolean</td>
-    <td>Should cups share printers?</td>
-    <td><tt>true</tt></td>
+    <td>array</td>
+    <td>ACLs for printer access</td>
+    <td><tt>['@LOCAL']</tt></td>
   </tr>
   <tr>
     <td><tt>['cups']['require_encryption']</tt></td>
