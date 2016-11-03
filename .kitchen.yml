@@ -6,14 +6,17 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: ubuntu-14.04
+  - name: bento/ubuntu-12.04
     run_list:
       - recipe[apt]
-  - name: ubuntu-12.04
+  - name: bento/ubuntu-14.04
     run_list:
       - recipe[apt]
-  - name: centos-6.5
-  - name: centos-5.10
+  - name: bento/ubuntu-16.04
+    run_list:
+      - recipe[apt]
+  - name: bento/centos-5.11
+  - name: bento/centos-6.8
 
 suites:
   - name: default
