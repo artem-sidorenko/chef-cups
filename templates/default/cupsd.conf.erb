@@ -17,7 +17,7 @@ SystemGroup <%= node['cups']['systemgroups'] %>
 ServerAlias <%= server_alias %>
 <% end -%>
 
-<% if node['cups']['share_printers'] -%>
+<% if !node['cups']['share_printers'].empty? -%>
 # Allow remote access
 <% node['cups']['ports'].each do |port| -%>
 Port <%= port %>
@@ -37,7 +37,7 @@ ServerCertificate <%= node['cups']['cert_file'] %>
 ServerKey <%= node['cups']['key_file'] %>
 <% end -%>
 
-<% if node['cups']['share_printers'] -%>
+<% if !node['cups']['share_printers'].empty? -%>
 # Show shared printers on the local network.
 Browsing On
 BrowseLocalProtocols dnssd CUPS
