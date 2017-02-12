@@ -2,7 +2,8 @@
 # Cookbook Name:: cups
 # Recipe:: default_printer
 #
-# Copyright 2015, Biola University
+# Copyright 2015-2017, Biola University
+# Copyright 2017, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@
 #
 
 template '/etc/cups/lpoptions' do
-  mode 0644
+  mode '0644'
   owner 'root'
   group 'root'
 end

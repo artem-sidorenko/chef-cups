@@ -2,7 +2,8 @@
 # Cookbook Name:: cups
 # Recipe:: default
 #
-# Copyright 2015, Biola University
+# Copyright 2015-2017, Biola University
+# Copyright 2017, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,11 +34,11 @@ service 'cups' do
 end
 
 # Work around the lack of a lpstat command during first convergence
-if File.exist?('/usr/bin/lpstat')
-  lpstat = 'lpstat -v'
-else
-  lpstat = 'true'
-end
+lpstat = if File.exist?('/usr/bin/lpstat')
+           'lpstat -v'
+         else
+           'true'
+         end
 lpstatcmd = Mixlib::ShellOut.new(lpstat)
 lpstatcmd.run_command
 
@@ -77,12 +78,10 @@ newprinters.each do |name, config|
 
   if config['model']
     cmdline.concat ['-m', config['model']]
+  elsif node['platform_family'] == 'debian'
+    cmdline.concat ['-m', 'lsb/usr/cupsfilters/textonly.ppd']
   else
-    if node['platform_family'] == 'debian'
-      cmdline.concat ['-m', 'lsb/usr/cupsfilters/textonly.ppd']
-    else
-      cmdline.concat ['-m', 'textonly.ppd']
-    end
+    cmdline.concat ['-m', 'textonly.ppd']
   end
 
   cmdline.concat ['-L', config['location']] if config['location']

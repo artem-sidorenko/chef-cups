@@ -3,7 +3,8 @@
 # Recipe:: airprint
 #
 # Copyright 2014, James Cuzella
-# Copyright 2015, Biola University
+# Copyright 2015-2017, Biola University
+# Copyright 2017, Artem Sidorenko
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,11 +20,13 @@
 #
 #
 
-Chef::Log.warn(
-  'Avahi will advertise AirPrint printers but cups will NOT share them and '\
-  'remote printing will not work unless you set '\
-  'node[\'cups\'][\'share_printers\']!!! Ensure that this is what you want!'
-) unless node['cups']['share_printers']
+unless node['cups']['share_printers']
+  Chef::Log.warn(
+    'Avahi will advertise AirPrint printers but cups will NOT share them and '\
+    'remote printing will not work unless you set '\
+    'node[\'cups\'][\'share_printers\']!!! Ensure that this is what you want!'
+  )
+end
 
 include_recipe 'git::default'
 
@@ -79,7 +82,7 @@ execute 'generate_airprint_service_definitions' do
   else
     command 'python airprint-generate.py'
   end
-  umask 0022 # Ensures created files have correct permissions (666 - 022 = 644)
+  umask '0022' # Ensures created files have correct permissions (666 - 022 = 644)
   user 'root'
   group 'root'
   returns 0
@@ -89,7 +92,7 @@ end
 bash 'copy_airprint_service_definitions' do
   cwd "#{Chef::Config[:file_cache_path]}/airprint-generate"
   code 'cp *.service /etc/avahi/services/'
-  umask 0022
+  umask '0022'
   user 'root'
   group 'root'
   returns 0
