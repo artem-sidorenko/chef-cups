@@ -1,5 +1,10 @@
-cups Cookbook
-=============
+chef-cups
+=========
+
+[![Supermarket](http://img.shields.io/cookbook/v/cups.svg)][1]
+[![Build Status](https://travis-ci.org/artem-sidorenko/chef-cups.svg)][2]
+[![Dependencies](http://img.shields.io/gemnasium/artem-sidorenko/chef-cups.svg)][4]
+
 Installs the cups package, if needed, starts the cups service, and configures printers on target systems.
 
 Attributes
@@ -165,7 +170,6 @@ Sets the system-wide default printer (via the `node['cups']['default_printer']` 
 
 **CAUTION** -- in its current form, this will completely overwrite the /etc/cups/lpoptions file.
 
-
 Contributing
 ------------
 1. Fork the repository on Github
@@ -175,9 +179,11 @@ Contributing
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License and Authors
+License and authors
 -------------------
- Copyright 2015, Biola University
+ Copyright 2015-2017, Biola University
+
+ Copyright 2017, Artem Sidorenko and contributors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -190,3 +196,7 @@ License and Authors
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+
+[1]: https://supermarket.getchef.com/cookbooks/cups
+[2]: https://travis-ci.org/artem-sidorenko/chef-cups
+[4]: https://gemnasium.com/artem-sidorenko/chef-cups
