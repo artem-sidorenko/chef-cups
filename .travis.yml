@@ -1,0 +1,27 @@
+---
+sudo: required
+language: ruby
+dist: trusty
+cache: bundler
+
+services:
+  - docker
+
+rvm: 2.3.3
+
+before_install:
+  - gem update --system # see https://github.com/bundler/bundler/issues/5357
+
+env:
+ - INSTANCE=centos-6
+ - INSTANCE=centos-7
+
+script:
+  -  KITCHEN_LOCAL_YAML=.kitchen.dokken.yml bundle exec rake kitchen
+
+matrix:
+  fast_finish: true
+  include:
+    - env: UNIT_AND_LINT=1
+      script:
+        - bundle exec rake lint spec

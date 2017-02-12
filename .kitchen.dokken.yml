@@ -1,0 +1,30 @@
+---
+driver:
+  name: dokken
+  chef_version: 12.5.1
+  privileged: true # because of init systems
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+verifier:
+  name: inspec
+
+platforms:
+- name: centos-6.7
+  driver:
+    image: centos:6.7
+    intermediate_instructions:
+      - RUN yum install -y initscripts
+- name: centos-7
+  driver:
+    image: centos:7
+    pid_one_command: /usr/lib/systemd/systemd
+
+suites:
+- name: default
+  run_list:
+  - recipe[cups]
