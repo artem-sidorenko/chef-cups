@@ -2,7 +2,7 @@ chef-cups
 =========
 
 [![Supermarket](http://img.shields.io/cookbook/v/cups.svg)][1]
-[![Build Status](https://travis-ci.org/artem-sidorenko/chef-cups.svg)][2]
+[![Build Status](https://travis-ci.org/artem-sidorenko/chef-cups.svg?branch=master)][2]
 [![Dependencies](http://img.shields.io/gemnasium/artem-sidorenko/chef-cups.svg)][4]
 
 Installs the cups package, if needed, starts the cups service, and configures printers on target systems.
