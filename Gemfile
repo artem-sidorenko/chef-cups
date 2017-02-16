@@ -4,7 +4,7 @@ gem 'berkshelf', '~> 5.3'
 gem 'chef', '~> 12.5'
 
 group :development do
-  gem 'chefspec', '~> 5.3.0'
+  gem 'chefspec', '~> 5.4'
   gem 'foodcritic', '~> 6.0'
   gem 'github_changelog_generator', '~> 1.12.0'
   gem 'kitchen-dokken'
