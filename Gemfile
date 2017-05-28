@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'berkshelf', '~> 5.3'
-gem 'chef', '~> 12.5'
+gem 'berkshelf', '~> 6.0'
+gem 'chef', '~> 13.0'
 
 group :development do
   gem 'chefspec', '~> 5.4'
