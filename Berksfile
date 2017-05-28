@@ -2,6 +2,6 @@ source 'https://supermarket.chef.io/'
 
 metadata
 
-group :integration do
-  cookbook 'apt'
+group :test do
+  cookbook 'test', path: 'test/fixtures/cookbooks/test'
 end

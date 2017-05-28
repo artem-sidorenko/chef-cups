@@ -1,8 +1,10 @@
 ---
 driver:
   name: dokken
-  chef_version: 12.5.1
   privileged: true # because of init systems
+<% if ENV['CHEF_VERSION'] %>
+  chef_version: <%= ENV['CHEF_VERSION'] %>
+<% end %>
 
 transport:
   name: dokken
@@ -10,21 +12,20 @@ transport:
 provisioner:
   name: dokken
 
-verifier:
-  name: inspec
-
 platforms:
-- name: centos-6.7
+- name: ubuntu-14-04
   driver:
-    image: centos:6.7
+    image: ubuntu:14.04
+- name: ubuntu-16-04
+  driver:
+    image: ubuntu:16.04
+    pid_one_command: /bin/systemd
+- name: centos-6
+  driver:
+    image: centos:6
     intermediate_instructions:
       - RUN yum install -y initscripts
 - name: centos-7
   driver:
     image: centos:7
     pid_one_command: /usr/lib/systemd/systemd
-
-suites:
-- name: default
-  run_list:
-  - recipe[cups]

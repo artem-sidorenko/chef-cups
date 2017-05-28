@@ -4,21 +4,26 @@ driver:
 
 provisioner:
   name: chef_zero
+<% if ENV['CHEF_VERSION'] %>
+  require_chef_omnibus: <%= ENV['CHEF_VERSION'] %>
+<% end %>
+
+verifier:
+  name: inspec
+  inspec_tests:
+    - test/integration/generic
 
 platforms:
-  - name: ubuntu-14.04
-    run_list:
-      - recipe[apt]
-  - name: ubuntu-12.04
-    run_list:
-      - recipe[apt]
-  - name: centos-6.5
-  - name: centos-5.10
+  - name: bento/ubuntu-14.04
+  - name: bento/ubuntu-16.04
+  - name: bento/centos-6.9
+  - name: bento/centos-7.3
 
 suites:
   - name: default
     run_list:
-      - recipe[cups::default]
+      - recipe[test]
+      - recipe[cups]
       - recipe[cups::default_printer]
     attributes:
       dev_mode: true
@@ -35,7 +40,8 @@ suites:
             location: Back Office
   - name: airprint
     run_list:
-      - recipe[cups::default]
+      - recipe[test]
+      - recipe[cups]
       - recipe[cups::default_printer]
       - recipe[cups::airprint]
     attributes:
