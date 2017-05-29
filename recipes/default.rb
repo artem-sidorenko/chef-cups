@@ -78,7 +78,8 @@ newprinters.each do |name, config|
 
   if config['model']
     cmdline.concat ['-m', config['model']]
-  elsif node['platform_family'] == 'debian'
+  elsif node['platform_family'] == 'debian' ||
+        (node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7)
     cmdline.concat ['-m', 'lsb/usr/cupsfilters/textonly.ppd']
   else
     cmdline.concat ['-m', 'textonly.ppd']
