@@ -11,6 +11,6 @@ group :development do
   gem 'kitchen-inspec'
   gem 'kitchen-vagrant'
   gem 'rake'
-  gem 'rubocop', '~> 0.46.0'
+  gem 'rubocop', '~> 0.49.1'
   gem 'test-kitchen', '~> 1.0'
 end
