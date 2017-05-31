@@ -10,6 +10,6 @@ version          '0.10.0'
 
 depends 'git', '~> 6.0'
 
-%w(ubuntu debian redhat centos amazon scientific smartos).each do |os|
+%w[ubuntu debian redhat centos amazon scientific smartos].each do |os|
   supports os
 end

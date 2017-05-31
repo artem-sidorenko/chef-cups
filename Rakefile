@@ -1,5 +1,6 @@
-#!/usr/bin/env rake
 # Heavily based on https://github.com/dev-sec/chef-ssh-hardening/blob/master/Rakefile
+
+# rubocop:disable Style/SymbolArray
 
 require 'foodcritic'
 require 'rspec/core/rake_task'

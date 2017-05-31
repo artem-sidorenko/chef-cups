@@ -40,7 +40,7 @@ end
 #           http://confoundedtech.blogspot.com/2012/12/ios6-airprint-without-true-airprint.html
 #           http://community.spiceworks.com/how_to/show/15491-print-to-ubuntu-12-04-shared-printer-via-windows-and-mac
 
-%w(types convs).each do |mime_file_suffix|
+%w[types convs].each do |mime_file_suffix|
   cookbook_file "airprint.#{mime_file_suffix}" do
     if node['platform_family'] == 'rhel'
       path "/etc/cups/airprint.#{mime_file_suffix}"
