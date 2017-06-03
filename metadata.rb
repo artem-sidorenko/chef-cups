@@ -1,12 +1,14 @@
 name             'cups'
-maintainer       'Biola University'
-maintainer_email 'jim.reeves@biola.edu'
-license          'Apache 2.0'
+maintainer       'Artem Sidorenko'
+maintainer_email 'artem@posteo.de'
+license          'Apache-2.0'
 description      'Installs/Configures cups'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-source_url       'https://github.com/biola/chef-cups'
-issues_url       'https://github.com/biola/chef-cups/issues'
+source_url       'https://github.com/artem-sidorenko/chef-cups'
+issues_url       'https://github.com/artem-sidorenko/chef-cups/issues'
 version          '0.10.0'
+
+chef_version '>= 12.5' if respond_to?(:chef_version)
 
 depends 'git', '~> 6.0'
 
