@@ -100,14 +100,6 @@ bash 'copy_airprint_service_definitions' do
   notifies :reload, 'service[avahi-daemon]', :immediately
 end
 
-# Reload cups service to pick up new mime types
-service 'cups' do
-  pattern 'cupsd'
-  supports restart: true, reload: false, status: true
-  action :nothing
-  # notified to restart by cookbook_file[airprint.*]
-end
-
 # Reload avahi-daemon to pick up new Airprint service definitions
 service 'avahi-daemon' do
   supports restart: true, reload: true, status: true
