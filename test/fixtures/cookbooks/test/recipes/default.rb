@@ -22,3 +22,17 @@ if node['platform_family'] == 'debian'
     action :update
   end
 end
+
+# install some tools required for testing phase
+package 'avahi-utils' do
+  package_name value_for_platform_family(
+    ['rhel'] => 'avahi-tools',
+    'debian' => 'avahi-utils'
+  )
+end
+
+# start dbus on centos 6 container as its required by avahi-daemon service
+service 'messagebus' do
+  action :start
+  only_if { node['platform'] == 'centos' && node['platform_version'].to_f < 7 }
+end

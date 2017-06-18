@@ -100,8 +100,6 @@ bash 'copy_airprint_service_definitions' do
   notifies :reload, 'service[avahi-daemon]', :immediately
 end
 
-# Reload avahi-daemon to pick up new Airprint service definitions
 service 'avahi-daemon' do
-  supports restart: true, reload: true, status: true
-  action :nothing
+  action %i[enable start]
 end
