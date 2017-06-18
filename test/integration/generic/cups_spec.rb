@@ -1,5 +1,6 @@
 describe service('cups') do
   it { should be_running }
+  it { should be_enabled }
 end
 
 # Verify the printers are configured properly

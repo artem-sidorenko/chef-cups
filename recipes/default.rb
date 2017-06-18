@@ -24,13 +24,11 @@ template '/etc/cups/cupsd.conf' do
   owner 'root'
   group 'lp'
   mode '0640'
+  notifies :restart, 'service[cups]'
 end
 
 service 'cups' do
-  pattern 'cupsd'
-  supports restart: true, reload: false, status: true
-  action :start
-  subscribes :restart, 'template[/etc/cups/cupsd.conf]'
+  action %i[start enable]
 end
 
 # Work around the lack of a lpstat command during first convergence
