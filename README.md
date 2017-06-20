@@ -105,6 +105,11 @@ Sets the system-wide default printer (via the `node['cups']['default_printer']` 
 
 **CAUTION** -- in its current form, this will completely overwrite the /etc/cups/lpoptions file.
 
+Thirdparty
+----------
+
+This cookbook includes [airprint-generate](https://github.com/tjfontaine/airprint-generate/blob/master/airprint-generate.py) script from [tjfontaine](https://github.com/tjfontaine), which is licended under MIT.
+
 Contributing
 ------------
 
