@@ -1,3 +1,5 @@
+printers = %w[vagrantprinter1 vagrantprinter2]
+
 describe service('cups') do
   it { should be_running }
   it { should be_enabled }
@@ -7,8 +9,7 @@ end
 describe command('lpstat -v') do
   its(:exit_status) { should eq 0 }
   its(:stderr) { should eq '' }
-  its(:stdout) do
-    should include 'device for vagrantprinter1: lpd://192.168.10.5'
-    should include 'device for vagrantprinter2: lpd://192.168.10.6'
+  printers.each do |prt|
+    its(:stdout) { should include "device for #{prt}: lpd://192.168.10" }
   end
 end
