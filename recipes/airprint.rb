@@ -28,8 +28,6 @@ if node['cups']['share_printers'].empty?
   )
 end
 
-include_recipe 'git::default'
-
 if node['platform_family'] == 'rhel'
   package 'avahi'
   package 'python-lxml'
@@ -64,17 +62,22 @@ end
 
 # Generate Avahi AirPrint service definition XML files
 #
-# 1. Checkout airprint-generate.py git repo
+# 1. Deploy airprint-generate.py script
 # 2. Run airprint-generate.py script
 # 3. Copy `.service` files to /etc/avahi/services/
-git "#{Chef::Config[:file_cache_path]}/airprint-generate" do
-  repository node['cups']['airprint']['airprint_generate']['git_url']
-  revision node['cups']['airprint']['airprint_generate']['git_revision']
-  action :sync
+
+cookbook_cache = File.join(Chef::Config[:file_cache_path], cookbook_name)
+airprint_generate_script = File.join(cookbook_cache, 'airprint-generate.py')
+
+directory cookbook_cache
+
+cookbook_file airprint_generate_script do
+  source 'airprint-generate.py'
+  mode '0644'
 end
 
 execute 'generate_airprint_service_definitions' do
-  cwd "#{Chef::Config[:file_cache_path]}/airprint-generate"
+  cwd cookbook_cache
   if node['platform_family'] == 'debian'
     # sleep is necessary here to ensure cups reload is finished before
     # execution during initial run
@@ -90,7 +93,7 @@ execute 'generate_airprint_service_definitions' do
 end
 
 bash 'copy_airprint_service_definitions' do
-  cwd "#{Chef::Config[:file_cache_path]}/airprint-generate"
+  cwd cookbook_cache
   code 'cp *.service /etc/avahi/services/'
   umask '0022'
   user 'root'
