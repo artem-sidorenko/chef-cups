@@ -10,105 +10,36 @@ Installs the cups package, if needed, starts the cups service, and configures pr
 Attributes
 ----------
 
-#### cups::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['cups']['printers']</tt></td>
-    <td>array</td>
-    <td>List of printers to configure on the system. See example in the usage section below.</td>
-    <td><tt>[]</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['systemgroups']</tt></td>
-    <td>string</td>
-    <td>Defines authorized system-group users in /etc/cups/cupsd.conf file.</td>
-    <td><tt>sys root</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['share_printers']</tt></td>
-    <td>array</td>
-    <td>ACLs for printer access</td>
-    <td><tt>['@LOCAL']</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['require_encryption']</tt></td>
-    <td>boolean</td>
-    <td>Should cups require SSL/TLS for client communication?  This requires both <tt>['cups']['cert_file']</tt> and <tt>['cups']['key_file']</tt> to be set.</td>
-    <td><tt>false</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['cert_file']</tt></td>
-    <td>string</td>
-    <td>The full path to the SSL certificate file to be used by cups. **Note:** if an intermediate certificate is required by the issuing certificate authority, the intermediate certificate must be appended to the server certificate file as cups does not support separate intermediate and certificate files.</td>
-    <td><tt>nil</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['key_file']</tt></td>
-    <td>string</td>
-    <td>The full path to the SSL key file to be used by cups.</td>
-    <td><tt>nil</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['server_aliases']</tt></td>
-    <td>array</td>
-    <td>List of allowed domains for remote administration</td>
-    <td><tt>[]</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['require_authentication']</tt></td>
-    <td>boolean</td>
-    <td>Specifies whether authentication is required to access the CUPS website and printers.</td>
-    <td><tt>false</tt></td>
-  </tr>
-</table>
+### cups::default
 
-#### cups::airprint
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['cups']['airprint_generate']['git_url']</tt></td>
-    <td>string</td>
-    <td>URL to the airprint file generator repo.</td>
-    <td><tt>https://github.com/tjfontaine/airprint-generate.git</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['cups']['airprint_generate']['git_revision']</tt></td>
-    <td>string</td>
-    <td>Git repo tag/version to pull.</td>
-    <td><tt>master</tt></td>
-  </tr>
-</table>
+| Key                                | Type    | Default     | Description                                |
+| ---------------------------------- | ------- | ----------- | ------------------------------------------ |
+| ['cups']['printers']               | array   | []          | List of printers to configure on the system. See example in the usage section below. |
+| ['cups']['systemgroups']           | string  | sys root    | Defines authorized system-group users in /etc/cups/cupsd.conf file. |
+| ['cups']['share_printers']         | array   | ['@LOCAL']  | ACLs for printer access                    |
+| ['cups']['require_encryption']     | boolean | false       | Should cups require SSL/TLS for client communication?  This requires both `['cups']['cert_file']` and `['cups']['key_file']` to be set. |
+| ['cups']['cert_file']              | string  | nil         | The full path to the SSL certificate file to be used by cups. **Note:** if an intermediate certificate is required by the issuing certificate authority, the intermediate certificate must be appended to the server certificate file as cups does not support separate intermediate and certificate files. |
+| ['cups']['key_file']               | string  | nil         | The full path to the SSL key file to be used by cups. |
+| ['cups']['server_aliases']         | array   | []          | List of allowed domains for remote administration |
+| ['cups']['require_authentication'] | boolean | false       | Specifies whether authentication is required to access the CUPS website and printers. |
 
-#### cups::default_printer
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['cups']['default_printer']</tt></td>
-    <td>string</td>
-    <td>Sets the system-wide default printer.</td>
-    <td><tt>nil</tt></td>
-  </tr>
-</table>
+### cups::airprint
+
+| Key                                           | Type    | Default     | Description                                |
+| --------------------------------------------- | ------- | ----------- | ------------------------------------------ |
+| ['cups']['airprint_generate']['git_url']      | string  | https://github.com/tjfontaine/airprint-generate.git | URL to the airprint file generator repo. |
+| ['cups']['airprint_generate']['git_revision'] | string | master | Git repo tag/version to pull. |
+
+### cups::default_printer
+
+| Key                                | Type    | Default     | Description                                |
+| ---------------------------------- | ------- | ----------- | ------------------------------------------ |
+| ['cups']['default_printer']        | string  | nil         | Sets the system-wide default printer.      |
 
 Usage
 -----
-#### cups::default
+
+### cups::default
 
 Include `cups` in your node's `run_list`:
 
@@ -122,6 +53,7 @@ Include `cups` in your node's `run_list`:
 ```
 
 SAMPLE format for printer entries:
+
 ```json
 "cups": {
   "printers": [
@@ -147,12 +79,13 @@ SAMPLE format for printer entries:
 }
 ```
 
-##### Data bags
+#### Data bags
 
 Set the attribute `node['cups']['printer_bag']` to the name of your data bag.
 
 Data bag entries use this format:
-```
+
+```json
 {
   "id": "printer1",
   "model": "textonly.ppd",
@@ -162,16 +95,19 @@ Data bag entries use this format:
 }
 ```
 
-#### cups::airprint
+### cups::airprint
+
 Configures CUPS to advertise printers via AirPrint.
 
-#### cups::default_printer
+### cups::default_printer
+
 Sets the system-wide default printer (via the `node['cups']['default_printer']` attribute).
 
 **CAUTION** -- in its current form, this will completely overwrite the /etc/cups/lpoptions file.
 
 Contributing
 ------------
+
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write you change
@@ -181,6 +117,7 @@ Contributing
 
 License and authors
 -------------------
+
  Copyright 2015-2017, Biola University
 
  Copyright 2017, Artem Sidorenko and contributors
