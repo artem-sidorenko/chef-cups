@@ -14,11 +14,11 @@ before_install:
 
 env:
   - INSTANCE=ubuntu-16-04
-  - INSTANCE=ubuntu-16-04 CHEF_VERSION=12.5.1
+  - INSTANCE=ubuntu-16-04 CHEF_VERSION=12.7.2
   - INSTANCE=centos-6
-  - INSTANCE=centos-6 CHEF_VERSION=12.5.1
+  - INSTANCE=centos-6 CHEF_VERSION=12.7.2
   - INSTANCE=centos-7
-  - INSTANCE=centos-7 CHEF_VERSION=12.5.1
+  - INSTANCE=centos-7 CHEF_VERSION=12.7.2
 
 script:
   - KITCHEN_LOCAL_YAML=.kitchen.dokken.yml bundle exec rake kitchen
