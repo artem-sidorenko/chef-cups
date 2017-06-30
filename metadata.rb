@@ -10,8 +10,6 @@ version          '0.11.0'
 
 chef_version '>= 12.5' if respond_to?(:chef_version)
 
-depends 'git', '~> 6.0'
-
 %w[ubuntu debian redhat centos amazon scientific smartos].each do |os|
   supports os
 end

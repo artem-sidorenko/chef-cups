@@ -23,13 +23,6 @@ Attributes
 | ['cups']['server_aliases']         | array   | []          | List of allowed domains for remote administration |
 | ['cups']['require_authentication'] | boolean | false       | Specifies whether authentication is required to access the CUPS website and printers. |
 
-### cups::airprint
-
-| Key                                           | Type    | Default     | Description                                |
-| --------------------------------------------- | ------- | ----------- | ------------------------------------------ |
-| ['cups']['airprint_generate']['git_url']      | string  | https://github.com/tjfontaine/airprint-generate.git | URL to the airprint file generator repo. |
-| ['cups']['airprint_generate']['git_revision'] | string | master | Git repo tag/version to pull. |
-
 ### cups::default_printer
 
 | Key                                | Type    | Default     | Description                                |
@@ -104,6 +97,11 @@ Configures CUPS to advertise printers via AirPrint.
 Sets the system-wide default printer (via the `node['cups']['default_printer']` attribute).
 
 **CAUTION** -- in its current form, this will completely overwrite the /etc/cups/lpoptions file.
+
+Thirdparty
+----------
+
+This cookbook includes [airprint-generate](https://github.com/tjfontaine/airprint-generate/blob/master/airprint-generate.py) script from [tjfontaine](https://github.com/tjfontaine), which is licended under MIT.
 
 Contributing
 ------------
