@@ -1,5 +1,14 @@
 # Change Log
 
+## [v0.12.0](https://github.com/artem-sidorenko/chef-cups/tree/v0.12.0) (2017-06-30)
+[Full Changelog](https://github.com/artem-sidorenko/chef-cups/compare/v0.11.0...v0.12.0)
+
+**Merged pull requests:**
+
+- Use chef 12.7 in the tests of 12 version [\#33](https://github.com/artem-sidorenko/chef-cups/pull/33) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Switch to the included airprint-generate script [\#32](https://github.com/artem-sidorenko/chef-cups/pull/32) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Improving README markdown [\#31](https://github.com/artem-sidorenko/chef-cups/pull/31) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
 ## [v0.11.0](https://github.com/artem-sidorenko/chef-cups/tree/v0.11.0) (2017-06-20)
 [Full Changelog](https://github.com/artem-sidorenko/chef-cups/compare/v0.10.0...v0.11.0)
 
