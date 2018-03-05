@@ -70,8 +70,14 @@ HostNameLookups On
 
 # Restrict access to the admin pages...
 <Location /admin>
+<% if node['cups']['admin']['require_encryption'] -%>
   Encryption Required
+<% end -%>
   Order allow,deny
+<%= "  Require user @SYSTEM" if node['cups']['admin']['auth_read'] %>
+<% node['cups']['admin']['acl'].each do |acl| -%>
+  Allow <%= acl %>
+<% end -%>
 </Location>
 
 # Restrict access to configuration files...
