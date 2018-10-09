@@ -5,6 +5,7 @@ gem 'chef', '~> 13.0'
 
 group :development do
   gem 'chefspec', '~> 7.1'
+  gem 'cucumber-core', '~> 3.2.1' # it fails with cucumber 4
   gem 'foodcritic', '~> 11.1'
   gem 'github_changelog_generator', '~> 1.14.0'
   gem 'kitchen-dokken'
