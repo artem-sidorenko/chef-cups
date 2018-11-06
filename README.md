@@ -22,6 +22,9 @@ Attributes
 | ['cups']['key_file']               | string  | nil         | The full path to the SSL key file to be used by cups. |
 | ['cups']['server_aliases']         | array   | []          | List of allowed domains for remote administration |
 | ['cups']['require_authentication'] | boolean | false       | Specifies whether authentication is required to access the CUPS website and printers. |
+| ['cups']['admin']['require_encryption'] | boolean | false  | Should cups require SSL/TLS for the administration pages |
+| ['cups']['admin']['auth_read']     | boolean | false       | Enable Authentification for the administration pages |
+| ['cups']['admin']['acl']           | array   | []          | List of hosts/networks that are allowed to access the administration pages |
 
 ### cups::default_printer
 
