@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.13.0](https://github.com/artem-sidorenko/chef-cups/tree/v0.13.0) (2018-11-06)
+[Full Changelog](https://github.com/artem-sidorenko/chef-cups/compare/v0.12.0...v0.13.0)
+
+**Merged pull requests:**
+
+- Fix CI: pin cucumber 3 [\#35](https://github.com/artem-sidorenko/chef-cups/pull/35) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Added attributes for administration pages [\#34](https://github.com/artem-sidorenko/chef-cups/pull/34) ([olqs](https://github.com/olqs))
+
 ## [v0.12.0](https://github.com/artem-sidorenko/chef-cups/tree/v0.12.0) (2017-06-30)
 [Full Changelog](https://github.com/artem-sidorenko/chef-cups/compare/v0.11.0...v0.12.0)
 
